@@ -82,13 +82,3 @@ class CashCalculator(Calculator):
             return f'Денег нет, держись: твой долг - {abs(remain_limit_in_currency)} {self.CURRENCY_NAME[currency]}'
         else:
             return 'Денег нет, держись'
-
-
-#cash_calculator = CashCalculator(1000)  # создадим калькулятор денег с дневным лимитом 1000
-
-#cash_calculator.add_record(Record(amount=145.05, comment='кофе'))
-#cash_calculator.add_record(Record(amount=300, comment='Серёге за обед'))
-#cash_calculator.add_record(Record(amount=3000, comment='бар в Танин др', date='13.04.2021'))
-
-#print(cash_calculator.get_today_cash_remained('eur'))
-#print(cash_calculator.get_week_stats())
