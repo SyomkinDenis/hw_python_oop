@@ -27,10 +27,10 @@ class Calculator:
         self.records = []
         print(self.records)
 
-    def add_record(self, record: Record):  # Сохранять новую запись
+    def add_record(self, record: Record):
         self.records.append(record)
 
-    def get_today_stats(self):  # Считать, сколько денег\калорий потрачено сегодня
+    def get_today_stats(self):
         today_records = [r for r in self.records if r.date == dt.date.today()]
         for r in today_records:
             print(r)
@@ -39,10 +39,13 @@ class Calculator:
             today_sum += r.amount
         return today_sum
 
-    def get_week_stats(self):  # Считать, сколько денег\калорий потрачено за последние 7 дней
+    def get_week_stats(self):
         today = dt.date.today()
         seven_days_ago = today - dt.timedelta(days=7)
-        week_records = [r for r in self.records if today >= r.date >= seven_days_ago]
+        week_records = [
+            r for r in self.records if
+            today >= r.date >= seven_days_ago
+            ]
         week_sum = 0
         for r in week_records:
             week_sum += r.amount
@@ -57,7 +60,10 @@ class CaloriesCalculator(Calculator):
     def get_calories_remained(self):
         remain_limit = self._remain_limit()
         if remain_limit > 0:
-            return f'Сегодня можно съесть что-нибудь ещё, но с общей калорийностью не более {remain_limit} кКал'
+            return (
+                'Сегодня можно съесть что-нибудь ещё, '
+                f'но с общей калорийностью не более {remain_limit} кКал'
+                )
         else:
             return 'Хватит есть!'
 
@@ -69,16 +75,27 @@ class CashCalculator(Calculator):
 
     def get_rate(self, currency):
         if currency != 'rub':
-            return getattr(self, f'{self.CURRENCY_NAME[currency].upper()}_RATE')
+            return getattr(
+                self, f'{self.CURRENCY_NAME[currency].upper()}_RATE'
+                )
         return 1
 
     def get_today_cash_remained(self, currency='rub'):
         remain_limit = self._remain_limit()
-        remain_limit_in_currency = round(remain_limit / self.get_rate(currency), 2)
+        currency_limit = round(remain_limit / self.get_rate(currency), 2)
 
-        if remain_limit_in_currency > 0:
-            return f'На сегодня осталось {remain_limit_in_currency} {self.CURRENCY_NAME[currency]}'
-        elif remain_limit_in_currency < 0:
-            return f'Денег нет, держись: твой долг - {abs(remain_limit_in_currency)} {self.CURRENCY_NAME[currency]}'
+        if currency_limit > 0:
+            return (
+                'На сегодня осталось '
+                f'{currency_limit} '
+                f'{self.CURRENCY_NAME[currency]}'
+                )
+
+        elif currency_limit < 0:
+            return (
+                'Денег нет, держись: твой долг - '
+                f'{abs(currency_limit)} '
+                f'{self.CURRENCY_NAME[currency]}'
+                )
         else:
             return 'Денег нет, держись'
