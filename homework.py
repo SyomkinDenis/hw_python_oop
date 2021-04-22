@@ -42,10 +42,9 @@ class Calculator:
     def get_week_stats(self):
         today = dt.date.today()
         seven_days_ago = today - dt.timedelta(days=7)
-        week_records = \
-            [
-                r for r in self.records if
-                today >= r.date >= seven_days_ago
+        week_records = [
+            r for r in self.records if
+            today >= r.date >= seven_days_ago
             ]
         week_sum = 0
         for r in week_records:
@@ -61,10 +60,9 @@ class CaloriesCalculator(Calculator):
     def get_calories_remained(self):
         remain_limit = self._remain_limit()
         if remain_limit > 0:
-            return \
-                (
-                    'Сегодня можно съесть что-нибудь ещё, '
-                    f'но с общей калорийностью не более {remain_limit} кКал'
+            return(
+                'Сегодня можно съесть что-нибудь ещё, '
+                f'но с общей калорийностью не более {remain_limit} кКал'
                 )
         else:
             return 'Хватит есть!'
@@ -77,9 +75,8 @@ class CashCalculator(Calculator):
 
     def get_rate(self, currency):
         if currency != 'rub':
-            return getattr\
-                    (
-                    self, f'{self.CURRENCY_NAME[currency].upper()}_RATE'
+            return(
+                getattr(self, f'{self.CURRENCY_NAME[currency].upper()}_RATE')
                 )
         return 1
 
@@ -88,19 +85,17 @@ class CashCalculator(Calculator):
         currency_limit = round(remain_limit / self.get_rate(currency), 2)
 
         if currency_limit > 0:
-            return \
-                (
-                    'На сегодня осталось '
-                    f'{currency_limit} '
-                    f'{self.CURRENCY_NAME[currency]}'
+            return(
+                'На сегодня осталось '
+                f'{currency_limit} '
+                f'{self.CURRENCY_NAME[currency]}'
                 )
 
         elif currency_limit < 0:
-            return \
-                (
-                    'Денег нет, держись: твой долг - '
-                    f'{abs(currency_limit)} '
-                    f'{self.CURRENCY_NAME[currency]}'
+            return(
+                'Денег нет, держись: твой долг - '
+                f'{abs(currency_limit)} '
+                f'{self.CURRENCY_NAME[currency]}'
                 )
         else:
             return 'Денег нет, держись'
