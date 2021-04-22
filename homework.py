@@ -71,9 +71,8 @@ class CashCalculator(Calculator):
 
     def get_rate(self, currency):
         if currency != 'rub':
-            return(
-                getattr(self, f'{self.CURRENCY_NAME[currency].upper()}_RATE')
-                   )
+            return(getattr(self,
+                           f'{self.CURRENCY_NAME[currency].upper()}_RATE'))
         return 1
 
     def get_today_cash_remained(self, currency='rub'):
