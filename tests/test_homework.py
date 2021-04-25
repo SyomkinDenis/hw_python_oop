@@ -152,7 +152,6 @@ class TestCashCalculator:
             result.add_record(record)
 
         result.EURO_RATE = 70
-        print(result.get_today_stats())
         monkeypatch.setattr(homework.CashCalculator, "EURO_RATE", 70)
         result.USD_RATE = 60
         monkeypatch.setattr(homework.CashCalculator, "USD_RATE", 60)
