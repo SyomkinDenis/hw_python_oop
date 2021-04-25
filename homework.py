@@ -55,14 +55,17 @@ class CashCalculator(Calculator):
 
     def get_today_cash_remained(self, currency: str):
         if self.remain_limit() != 0:
-            currency_rate = {'rub': 1, 'eur': self.EURO_RATE, 'usd': self.USD_RATE}
+            currency_rate = {'rub': 1, 'eur': self.EURO_RATE,
+                             'usd': self.USD_RATE}
             currency_name = {'rub': 'руб', 'eur': 'Euro', 'usd': 'USD'}
-            currency_limit = round(self.remain_limit() / currency_rate[currency], 2)
+            currency_limit = round(self.remain_limit() /
+                                   currency_rate[currency], 2)
         else:
             return 'Денег нет, держись'
 
         if currency_limit > 0:
-            return f'На сегодня осталось {currency_limit} {currency_name[currency]}'
+            return('На сегодня осталось '
+                   f'{currency_limit} {currency_name[currency]}')
         else:
             currency_limit = abs(currency_limit)
             return('Денег нет, держись: твой долг - '
