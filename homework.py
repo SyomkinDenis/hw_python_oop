@@ -2,14 +2,14 @@ import datetime as dt
 from typing import Optional
 
 
-date_format = '%d.%m.%Y'
+DATE_FORMAT = '%d.%m.%Y'
 
 
 class Record:
     def __init__(self, amount: int, comment: str, date: Optional[str] = None):
         self.amount = amount
         if date is not None:
-            self.date = dt.datetime.strptime(date, date_format).date()
+            self.date = dt.datetime.strptime(date, DATE_FORMAT).date()
         else:
             self.date = dt.date.today()
         self.comment = comment
@@ -57,18 +57,16 @@ class CashCalculator(Calculator):
 
     def get_today_cash_remained(self, currency: str):
         remain_limit = self.remain_limit()
-        if remain_limit != 0:
-            currency_rate = {'rub': 1, 'eur': self.EURO_RATE,
-                             'usd': self.USD_RATE}
-            currency_name = {'rub': 'руб', 'eur': 'Euro', 'usd': 'USD'}
-            currency_limit = round(remain_limit / currency_rate[currency], 2)
-        else:
+        if remain_limit == 0:
             return 'Денег нет, держись'
+        currency_rate = {'rub': 1, 'eur': self.EURO_RATE, 'usd': self.USD_RATE}
+        currency_name = {'rub': 'руб', 'eur': 'Euro', 'usd': 'USD'}
+        currency_sample = currency_name[currency]
+        currency_limit = round(remain_limit / currency_rate[currency], 2)
 
         if currency_limit > 0:
             return('На сегодня осталось '
-                   f'{currency_limit} {currency_name[currency]}')
-        else:
-            currency_limit = abs(currency_limit)
-            return('Денег нет, держись: твой долг - '
-                   f'{currency_limit} {currency_name[currency]}')
+                   f'{currency_limit} {currency_sample}')
+        currency_limit = abs(currency_limit)
+        return('Денег нет, держись: твой долг - '
+               f'{currency_limit} {currency_sample}')
